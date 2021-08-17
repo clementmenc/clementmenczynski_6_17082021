@@ -1,0 +1,19 @@
+{
+  "name": "p6_menczynski_clement",
+  "version": "1.0.0",
+  "description": "Prototype du site FishEye",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss ./css/style.css --style compressed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clementmenc/clementmenczynski_6_17082021.git"
+  },
+  "author": "Clément Menczynski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clementmenc/clementmenczynski_6_17082021/issues"
+  },
+  "homepage": "https://github.com/clementmenc/clementmenczynski_6_17082021#readme"
+}
