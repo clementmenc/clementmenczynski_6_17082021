@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":[],"names":[],"mappings":"","file":"style.css"}
+{"version":3,"sourceRoot":"","sources":["../sass/base/_general.scss"],"names":[],"mappings":"AAIQ,oFAMR,EACI,SACA,UACA,sBAQJ,KACI,iCACA,eACA","file":"style.css"}
