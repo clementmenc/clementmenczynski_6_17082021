@@ -31,7 +31,7 @@ export default class Filter{
         if (this.state) {
             let index = Filter.activeFilters.indexOf(this.value)
             Filter.activeFilters.splice(index, 1)
-        }else{
+        } else {
             Filter.activeFilters = [...Filter.activeFilters, this.value]
         }
 
@@ -40,7 +40,7 @@ export default class Filter{
                 if (item.state) {
                     item.state = false
                     item.element.setAttribute('data-active', 'false')
-                }else{
+                } else {
                     item.state = true
                     item.element.setAttribute('data-active', 'true')
                 }
