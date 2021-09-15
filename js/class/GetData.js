@@ -9,6 +9,11 @@ export default class GetData {
     }
 
     getPhotographer = (id) => {
+
+        if (typeof id != 'Number') {
+            id = parseInt(id)
+        }
+
         return this.getPhotographers().find(elem => elem.id === id)
     }
 

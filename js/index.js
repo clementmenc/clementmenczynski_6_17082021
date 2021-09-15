@@ -27,5 +27,4 @@ const api = async (url) => {
         photographer = new Photographer(photographer)
         PHOTOGRAPHERSLIST.appendChild(photographer.thumbnail())
     })
-
 })()

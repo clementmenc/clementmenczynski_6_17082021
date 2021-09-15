@@ -8,7 +8,7 @@
     .photographer__profil{
         display: inline-block;
 
-        .photographer__img{
+        &__img{
             width: 200px;
             height: 200px;
             object-fit: cover;
@@ -18,9 +18,9 @@
             transition: transform .3s ease;
         }
     
-        .photographer__name{
+        &__name{
             font-size: 2.25rem;
-            color: $lightRed;
+            color: $orange;
         }
 
         

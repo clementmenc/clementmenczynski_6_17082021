@@ -14,7 +14,18 @@ export default class Filter{
         this.element.addEventListener('click', (e) => {
             e.preventDefault()
             this.setState()
-            Photographer.setVisbilityFromFilters()
+
+            switch (window.location.pathname) {
+                case "/":
+                case "/index.html":
+                    Photographer.setVisbilityFromFilters()
+                    break;
+                case "/photographer.html":
+                    // Media.setVisbilityFromFilters()
+                    break;
+                default:
+                    break;
+            }
         })
 
         Filter.instances = [...Filter.instances, this]
@@ -24,7 +35,7 @@ export default class Filter{
     static activeFilters = []
 
     /**
-     * Contrôle l'état original du filtre, modifie sont état et met à jour le style du filtre
+     * Contrôle l'état original du filtre, modifie sont état et met à jour le style du filtre si besoin
      */
     setState = () => {
 
