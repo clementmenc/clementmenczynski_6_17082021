@@ -15,12 +15,15 @@ export default class Filter{
             e.preventDefault()
             this.setState()
 
-            switch (window.location.pathname) {
-                case "/":
-                case "/index.html":
+            let path = window.location.pathname.split('/')
+            path = path[path.length - 1]
+
+            switch (path) {
+                case "":
+                case "index.html":
                     Photographer.setVisbilityFromFilters()
                     break;
-                case "/photographer.html":
+                case "photographer.html":
                     // Media.setVisbilityFromFilters()
                     break;
                 default:

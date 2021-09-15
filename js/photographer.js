@@ -27,6 +27,7 @@ const getParam = (param) => {
 
     // Récupération de l'ID du photographe demandé
     const photographerId = getParam('id')
+    console.log(getParam('id'));
 
     // Définition des cibles pour les éléments générés
     const photographerTarget = document.getElementById('photographer-profil')
