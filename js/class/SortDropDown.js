@@ -1,3 +1,5 @@
+import Gallery from './Gallery.js'
+
 export default class SortDropDown {
     constructor () {
         this.item = {
@@ -81,14 +83,14 @@ export default class SortDropDown {
     }
 
     updateState = (e) => {
+        e.preventDefault()
         let newState = e.target.getAttribute('data-value')
 
         if(newState != SortDropDown.value){
             SortDropDown.value = newState
             this.btnValue = newState
             this.btn.innerHTML = this.item[newState]
-
-            // Media function called here
+            Gallery.sortBy(newState)
         }
     }
 

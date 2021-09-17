@@ -12,9 +12,20 @@ export default class Photographer{
         this.tags = data.tags
         Photographer.instances = [...Photographer.instances, this]
     }
-
+    
     static instances = []
 
+    /**
+     * Détermine si chaque photographe doit être visible ou masqué en fonction des filtres actifs
+     */
+    static setVisbilityFromFilters = () => {
+
+        Photographer.instances.forEach(photographer => {
+            let res = photographer.tags.filter(tag => Filter.activeFilters.includes(tag))
+            photographer.element.style.display = res.length == Filter.activeFilters.length ? "block" : "none"
+        })
+    }
+    
     /**
      * Créer et retourne la thumbnail du photographe
      * @returns {HTMLElement} HTMLElement
@@ -98,16 +109,5 @@ export default class Photographer{
 
         this.element = container
         return container
-    }
-
-    /**
-     * Détermine si chaque photographe doit être visible ou masqué en fonction des filtres actifs
-     */
-    static setVisbilityFromFilters = () => {
-
-        Photographer.instances.forEach(photographer => {
-            let res = photographer.tags.filter(tag => Filter.activeFilters.includes(tag))
-            photographer.element.style.display = res.length == Filter.activeFilters.length ? "block" : "none"
-        })
     }
 }

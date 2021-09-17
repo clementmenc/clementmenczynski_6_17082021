@@ -8,13 +8,15 @@
     margin: 0 auto;
 
     &__link{
-        // max-width: 100%;
         display: block;
+
         &__img, &__video{
             width: 100%;
             height: 190px;
             object-fit: cover;
             border-radius: $borderRadius;
+            background-color: #dedede;
+            overflow: hidden;
             
             @media screen and (min-width: 950px){
                 height: 300px;
@@ -29,11 +31,5 @@
         color: $red;
 
         &__title{ font-size: 0.875rem;  }
-    }
-
-    @media screen and (min-width: 950px){
-        width: auto;
-        max-width: none;
-        margin: 0;
     }
 }

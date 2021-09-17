@@ -1,4 +1,5 @@
 import Photographer from "./Photographer.js"
+import Media from "./Media.js"
 
 export default class Filter{
     constructor(value){
@@ -24,7 +25,7 @@ export default class Filter{
                     Photographer.setVisbilityFromFilters()
                     break;
                 case "photographer.html":
-                    // Media.setVisbilityFromFilters()
+                    Media.setVisbilityFromFilters()
                     break;
                 default:
                     break;

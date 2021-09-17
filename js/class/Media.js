@@ -1,3 +1,5 @@
+import Filter from './Filter.js'
+
 export default class Media {
     constructor (data) {
         this.id = data.id
@@ -15,23 +17,47 @@ export default class Media {
 
     static instances = []
 
-    static getGallery = () => {
-        let newElement = document.createElement('section')
-        newElement.setAttribute('class', 'gallery')
-
-        Media.instances.forEach(item => newElement.appendChild(item.getArticle()) )
-
-        return newElement
+    /**
+     * Détermine si chaque photographe doit être visible ou masqué en fonction des filtres actifs
+     */
+    static setVisbilityFromFilters = () => {
+        Media.instances.forEach(item => {
+            let res = item.tags.filter(tag => Filter.activeFilters.includes(tag))
+            item.element.style.display = res.length == Filter.activeFilters.length ? "block" : "none"
+        })
     }
 
+    static sortBy = (what) => {
+        let element = Media.instances
+        switch (what) {
+            case 'date':
+                element.sort((a,b) => a.date - b.date)
+                break;
+
+            case 'title':
+                element.sort((a,b) => a.title - b.title)
+                break;
+
+            default:
+                element.sort((a,b) => a.likes - b.likes)
+                break;
+        }
+
+        Media.setGalleryOrder(element)
+    }
+
+    /**
+     * Créer et retourne l'article de la photo
+     * @returns {HTMLElement} HTMLElement
+     */
     getArticle = () => {
         let newElement = document.createElement('article')
         newElement.setAttribute('class', 'media')
 
         newElement.innerHTML = `
-        <a href="" class="media__link">
+        <div href="" class="media__link">
             ${this.getThumbnail()}
-        </a>
+        </div>
         <footer class="media__infos">
             <p class="media__infos__title">${this.title}</p>
             <div class="media__infos__likes">
@@ -40,9 +66,14 @@ export default class Media {
             </div>
         </footer>`
 
+        this.element = newElement
         return newElement
     }
 
+    /**
+     * Créer et retourne la thumbnail de la photo
+     * @returns {HTMLElement} HTMLElement
+     */
     getThumbnail = () => {
         if (this.img) {
             return `<img class="media__link__img" src="imgs/photos/${this.photographerId}/${this.img}" alt="">`
