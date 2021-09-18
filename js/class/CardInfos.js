@@ -9,7 +9,6 @@ export default class CardInfos {
 
     static target
     static price
-    static counter
 
     static getTotalLike = () => {
         let i = 0
@@ -21,10 +20,8 @@ export default class CardInfos {
     }
 
     static updateTotalLike = () => {
-        console.log('called');
         let total = CardInfos.getTotalLike()
-        console.log(CardInfos.counter);
-        CardInfos.counter.innerHTML = total
+        document.getElementById('counter-likes').innerHTML = total
     }
 
     static view = () => {
@@ -32,11 +29,11 @@ export default class CardInfos {
         counterContainer.setAttribute('class', 'card-infos__nb-likes')
 
         let nbLike = document.createElement('span')
+        nbLike.setAttribute('id', 'counter-likes')
         nbLike.setAttribute('class', 'nb-likes')
         nbLike.innerHTML = CardInfos.getTotalLike()
-        CardInfos.counter = nbLike
 
-        counterContainer.appendChild(CardInfos.counter)
+        counterContainer.appendChild(nbLike)
         counterContainer.innerHTML += `<i class="fas fa-heart" aria-label="likes"></i>`
     
         CardInfos.target.appendChild(counterContainer)
