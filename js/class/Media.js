@@ -1,3 +1,4 @@
+import CardInfos from './CardInfos.js'
 import Filter from './Filter.js'
 
 export default class Media {
@@ -11,6 +12,7 @@ export default class Media {
         this.img = data.image
         this.video = data.video
         this.price = data.price
+        this.liked = false
 
         Media.instances = [...Media.instances, this]
     }
@@ -46,6 +48,29 @@ export default class Media {
         Media.setGalleryOrder(element)
     }
 
+    static like = (e) => {
+        let id = e.target.getAttribute('data-id-liked')
+        let count = e.target.previousElementSibling.innerText
+
+        Media.instances.forEach(instance => {
+            if (instance.id == id) {
+                if(instance.liked){
+                    instance.likes--
+                    e.target.previousElementSibling.innerHTML = parseInt(count) - 1
+                } else {
+                    instance.likes++
+                    e.target.previousElementSibling.innerHTML = parseInt(count) + 1
+                }
+                instance.liked = !instance.liked
+                e.target.classList.toggle('fas')
+                e.target.classList.toggle('far')
+            }
+        })
+
+        e.target.parentNode.classList.toggle('liked')
+        CardInfos.updateTotalLike()
+    }
+
     /**
      * Créer et retourne l'article de la photo
      * @returns {HTMLElement} HTMLElement
@@ -55,14 +80,14 @@ export default class Media {
         newElement.setAttribute('class', 'media')
 
         newElement.innerHTML = `
-        <div href="" class="media__link">
+        <div class="media__link">
             ${this.getThumbnail()}
         </div>
         <footer class="media__infos">
             <p class="media__infos__title">${this.title}</p>
             <div class="media__infos__likes">
                 <span class="media__infos__likes-nb">${this.likes}</span>
-                <i class="fas fa-heart media__infos__likes-icon" aria-label="likes"></i>
+                <i data-id-liked="${this.id}" class="far fa-heart media__infos__likes-icon" aria-label="likes"></i>
             </div>
         </footer>`
 
