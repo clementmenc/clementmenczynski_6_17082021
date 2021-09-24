@@ -16,6 +16,10 @@
     color: $white;
     cursor: pointer;
 
+    &.btn-submit{
+        width: 170px;
+    }
+
     &:hover{
         background-color: $lightRed;
         color: $black;

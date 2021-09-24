@@ -1,4 +1,4 @@
-import Gallery from './Gallery.js'
+import Media from "./Media.js"
 
 export default class SortDropDown {
     constructor () {
@@ -90,7 +90,7 @@ export default class SortDropDown {
             SortDropDown.value = newState
             this.btnValue = newState
             this.btn.innerHTML = this.item[newState]
-            Gallery.sortBy(newState)
+            Media.sortBy(newState)
         }
     }
 

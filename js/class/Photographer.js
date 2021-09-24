@@ -1,7 +1,7 @@
-import Filter from "./Filter.js";
+import Tag from "./Tag.js";
 
-export default class Photographer{
-    constructor (data) {
+export default class Photographer {
+    constructor(data) {
         this.id = data.id
         this.name = data.name
         this.portrait = data.portrait
@@ -11,31 +11,35 @@ export default class Photographer{
         this.price = data.price
         this.tags = data.tags
         Photographer.instances = [...Photographer.instances, this]
+        
+        this.element = this.getView()
     }
-    
+
     static instances = []
 
-    /**
-     * Détermine si chaque photographe doit être visible ou masqué en fonction des filtres actifs
-     */
-    static setVisbilityFromFilters = () => {
+    getView = () => {
+        let path = window.location.pathname.split('/')
+        path = path[path.length - 1]
 
-        Photographer.instances.forEach(photographer => {
-            let res = photographer.tags.filter(tag => Filter.activeFilters.includes(tag))
-            photographer.element.style.display = res.length == Filter.activeFilters.length ? "block" : "none"
-        })
+        switch (path) {
+            case "":
+            case "index.html":
+                return this.thumbnail()
+                break;
+            case "photographer.html":
+                return this.profil()
+                break;
+            default:
+                break;
+        }
     }
-    
-    /**
-     * Créer et retourne la thumbnail du photographe
-     * @returns {HTMLElement} HTMLElement
-     */
-    thumbnail = () => {
-        let newElement = document.createElement('article')
-        newElement.setAttribute('class', 'photographer-thumbnail')
-        newElement.setAttribute('data-id', this.id)
 
-        newElement.innerHTML =
+    thumbnail = () => {
+        let element = document.createElement('article')
+        element.setAttribute('class', 'photographer-thumbnail')
+        element.setAttribute('data-id', this.id)
+
+        element.innerHTML =
         `<a class="photographer__profil" href="photographer.html?id=${this.id}">
             <img class="photographer__profil__img" src="imgs/photos/Photographers_ID_Photos/${this.portrait}" alt="">
             <h2 class="photographer__profil__name">${this.name}</h2>
@@ -46,26 +50,22 @@ export default class Photographer{
             <p class="photographer__infos__price">${this.price}€/jour</p>
         </div>`
 
-        let filterList = document.createElement('ul')
-        filterList.setAttribute('class', 'tag-list photographer__tags')
+        let tagsList = document.createElement('ul')
+        tagsList.setAttribute('class', 'tag-list photographer__tags')
 
-        let filters = this.tags.map(tag => new Filter(tag))
+        let tags = this.tags.map(tag => new Tag(tag))
 
-        filters.forEach(filter => {
-            filterList.appendChild(filter.element)
+        tags.forEach(tag => {
+            tagsList.appendChild(tag.element)
         })
-        
-        newElement.appendChild(filterList)
 
-        this.element = newElement
-        return newElement
+        element.appendChild(tagsList)
+
+        return element
     }
 
-    /**
-     * Créer et retourne le profil du photographe
-     * @returns {HTMLElement} HTMLElement
-     */
     profil = () => {
+
         // Création des éléments du profil
         let container = document.createElement('section')
         let infosElement = document.createElement('div')
@@ -86,16 +86,16 @@ export default class Photographer{
         <p class="photographer__infos__city">${this.city}, ${this.country}</p>
         <p class="photographer__infos__tagline">${this.tagline}</p>`
 
-        let filterList = document.createElement('ul')
-        filterList.setAttribute('class', 'tag-list')
+        let tagsList = document.createElement('ul')
+        tagsList.setAttribute('class', 'tag-list')
 
-        let filters = this.tags.map(tag => new Filter(tag))
+        let tags = this.tags.map(tag => new Tag(tag))
 
-        filters.forEach(filter => {
-            filterList.appendChild(filter.element)
+        tags.forEach(tag => {
+            tagsList.appendChild(tag.element)
         })
 
-        infosElement.appendChild(filterList)
+        infosElement.appendChild(tagsList)
 
         // Ajout du text dans le bouton de contact
 
@@ -107,7 +107,15 @@ export default class Photographer{
         container.appendChild(contactBtn)
         container.appendChild(pictureElement)
 
-        this.element = container
+        // this.element = container
         return container
+    }
+
+    static setVisbilityFromFilters = () => {
+
+        Photographer.instances.forEach(photographer => {
+            let res = photographer.tags.filter(tag => Tag.activeTags.includes(tag))
+            photographer.element.style.display = res.length == Tag.activeTags.length ? "block" : "none"
+        })
     }
 }

@@ -1,8 +1,9 @@
-import CardInfos from './CardInfos.js'
-import Filter from './Filter.js'
+import CardInfos from "./CardInfos.js"
+import Tag from "./Tag.js"
+import LightBox from "./LightBox.js"
 
 export default class Media {
-    constructor (data) {
+    constructor (data, target) {
         this.id = data.id
         this.photographerId = data.photographerId
         this.date = data.date
@@ -13,31 +14,32 @@ export default class Media {
         this.video = data.video
         this.price = data.price
         this.liked = false
+        this.element = this.getView()
+        Media.target = target
 
+
+        Media.totalLikes += this.likes
         Media.instances = [...Media.instances, this]
     }
 
+    static target
     static instances = []
+    static totalLikes = 0
 
-    /**
-     * Détermine si chaque photographe doit être visible ou masqué en fonction des filtres actifs
-     */
-    static setVisbilityFromFilters = () => {
-        Media.instances.forEach(item => {
-            let res = item.tags.filter(tag => Filter.activeFilters.includes(tag))
-            item.element.style.display = res.length == Filter.activeFilters.length ? "block" : "none"
-        })
+    static fill = () => {
+        Media.target.innerHTML = ""
+        Media.instances.forEach(media => Media.target.appendChild(media.element))
     }
 
     static sortBy = (what) => {
-        let element = Media.instances
+        let element = [...Media.instances]
         switch (what) {
             case 'date':
-                element.sort((a,b) => a.date - b.date)
+                element.sort((a,b) => new Date(b.date) - new Date(a.date))
                 break;
 
             case 'title':
-                element.sort((a,b) => a.title - b.title)
+                element.sort((a,b) => a.title.localeCompare(b.title))
                 break;
 
             default:
@@ -45,60 +47,77 @@ export default class Media {
                 break;
         }
 
-        Media.setGalleryOrder(element)
+        Media.instances = element
+        Media.fill()
     }
 
-    static like = (e) => {
-        let id = e.target.getAttribute('data-id-liked')
-        let count = e.target.previousElementSibling.innerText
+    static setVisbilityFromFilters = () => {
 
-        Media.instances.forEach(instance => {
-            if (instance.id == id) {
-                if(instance.liked){
-                    instance.likes--
-                    e.target.previousElementSibling.innerHTML = parseInt(count) - 1
-                } else {
-                    instance.likes++
-                    e.target.previousElementSibling.innerHTML = parseInt(count) + 1
-                }
-                instance.liked = !instance.liked
-                e.target.classList.toggle('fas')
-                e.target.classList.toggle('far')
-            }
+        Media.instances.forEach(media => {
+            let res = media.tags.filter(tag => Tag.activeTags.includes(tag))
+            media.element.style.display = res.length == Tag.activeTags.length ? "block" : "none"
         })
+    }
 
-        e.target.parentNode.classList.toggle('liked')
+    like = () => {
+        if (this.liked){
+            this.likes -= 1
+            Media.totalLikes -= 1
+        } else {
+            this.likes += 1
+            Media.totalLikes += 1
+        }
+
+        this.likeBtn.classList.toggle('fas')
+        this.likeBtn.classList.toggle('far')
+        this.liked = !this.liked
+        this.likeCount.innerHTML = this.likes
         CardInfos.updateTotalLike()
     }
 
-    /**
-     * Créer et retourne l'article de la photo
-     * @returns {HTMLElement} HTMLElement
-     */
-    getArticle = () => {
-        let newElement = document.createElement('article')
-        newElement.setAttribute('class', 'media')
+    getView = () => {
+        let container = document.createElement('article')
+        container.setAttribute('class', 'media')
 
-        newElement.innerHTML = `
-        <div class="media__link">
-            ${this.getThumbnail()}
-        </div>
-        <footer class="media__infos">
-            <p class="media__infos__title">${this.title}</p>
-            <div class="media__infos__likes">
-                <span class="media__infos__likes-nb">${this.likes}</span>
-                <i data-id-liked="${this.id}" class="far fa-heart media__infos__likes-icon" aria-label="likes"></i>
-            </div>
-        </footer>`
+        let media = document.createElement('div')
+        media.setAttribute('class', 'media__link')
+        media.innerHTML = this.getThumbnail()
+        media.addEventListener('click', () => new LightBox(Media.instances, Media.instances.indexOf(this)))
 
-        this.element = newElement
-        return newElement
+        let footer =  document.createElement('footer')
+        footer.setAttribute('class', 'media__infos')
+        footer.innerHTML = `<p class="media__infos__title">${this.title}</p>`
+
+        let like = document.createElement('div')
+        like.setAttribute('class', 'media__infos__likes')
+
+        let likeNb = document.createElement('span')
+        likeNb.setAttribute('class', 'media__infos__likes-nb')
+        likeNb.innerHTML = this.likes
+
+        this.likeCount = likeNb
+
+
+        like.appendChild(likeNb)
+        like.appendChild(this.getLikeBtn())
+        footer.appendChild(like)
+        container.appendChild(media)
+        container.appendChild(footer)
+
+        return container
     }
 
-    /**
-     * Créer et retourne la thumbnail de la photo
-     * @returns {HTMLElement} HTMLElement
-     */
+    getLikeBtn = () => {
+        let likeBtn = document.createElement('i')
+        likeBtn.setAttribute('class', 'far fa-heart media__infos__likes-icon')
+        likeBtn.setAttribute('aria-label', 'likes')
+
+        likeBtn.addEventListener('click', this.like)
+
+        this.likeBtn = likeBtn
+        return likeBtn
+    }
+
     getThumbnail = () => {
         if (this.img) {
             return `<img class="media__link__img" src="imgs/photos/${this.photographerId}/${this.img}" alt="">`

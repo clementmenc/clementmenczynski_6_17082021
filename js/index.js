@@ -1,30 +1,57 @@
-// IMPORT DES MODULES
-import GetData from "./class/GetData.js"
-import Photographer from "./class/Photographer.js"
-import Filter from "./class/Filter.js"
+// -----------------------------------------
+// Import des classes
+// -----------------------------------------
 
-const FILTERSCONTAINER = document.getElementById('categories')
-const PHOTOGRAPHERSLIST = document.getElementById('photographers-list')
+import Api from './class/Api.js'
+import Tag from './class/Tag.js'
+import Photographer from './class/Photographer.js'
 
-const api = async (url) => {
-    const data = await fetch(url)
-    return await data.json()
+// -----------------------------------------
+// Définition des cibles sur le document
+// -----------------------------------------
+
+let tagTarget = document.getElementById('tags')
+let photographerTarget = document.getElementById('photographers-list')
+
+// -----------------------------------------
+// Fonctions
+// -----------------------------------------
+
+const injectElement = (element, target) => {
+    target.appendChild(element)
 }
 
-(async () => {
-    const data = new GetData(await api('./FishEyeData.json'));
+// -----------------------------------------
+// Comportement par défaut (une fois la page chargé)
+// -----------------------------------------
 
-    let filterList = document.createElement('ul')
-    filterList.setAttribute('class', 'tag-list')
+await Api.init()
 
-    let filters = data.getTags().map(tag => new Filter(tag))
-    filters.map(filter => {
-        filterList.appendChild(filter.element)
+
+
+// Tags
+
+    // Configuration du comportement des tags sur la pages
+    Tag.config({
+        oneAtTime: false,
+        callback: () => { Photographer.setVisbilityFromFilters() }
     })
-    FILTERSCONTAINER.appendChild(filterList)
 
-    data.getPhotographers().forEach(photographer => {
-        photographer = new Photographer(photographer)
-        PHOTOGRAPHERSLIST.appendChild(photographer.thumbnail())
+    // Création des éléments
+    Api.getAllTags().forEach(tag => new Tag(tag))
+
+    // Injection dans le document
+    Tag.instances.forEach(i => {
+        injectElement(i.element, tagTarget)
     })
-})()
+
+
+// Photographe
+
+    // Création des éléments
+    Api.getAllPhotographers().forEach(p => new Photographer(p))
+
+    // Injection dans le document
+    Photographer.instances.forEach(i => {
+        injectElement(i.element, photographerTarget)
+    })
