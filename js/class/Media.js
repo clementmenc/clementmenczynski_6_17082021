@@ -81,8 +81,9 @@ export default class Media {
 
         let media = document.createElement('div')
         media.setAttribute('class', 'media__link')
+        media.setAttribute('class', 'media__link')
         media.innerHTML = this.getThumbnail()
-        media.addEventListener('click', () => new LightBox(Media.instances, Media.instances.indexOf(this)))
+        media.addEventListener('click', () => new LightBox(Media.instances, Media.instances.indexOf(this)) )
 
         let footer =  document.createElement('footer')
         footer.setAttribute('class', 'media__infos')

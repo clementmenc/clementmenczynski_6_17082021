@@ -41,7 +41,6 @@ export default class Tag {
     setState = () => {
 
         if (Tag.oneAtTime && Tag.activeTags[0] != this.value) {
-            console.log('t');
             Tag.activeTags = []
             Tag.instances.forEach(tag => tag.state = false)
         }

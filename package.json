@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/clementmenc/clementmenczynski_6_17082021/issues"
   },
-  "homepage": "https://github.com/clementmenc/clementmenczynski_6_17082021#readme"
+  "homepage": "https://github.com/clementmenc/clementmenczynski_6_17082021#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
 }

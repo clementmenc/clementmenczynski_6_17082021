@@ -70,7 +70,7 @@ import Photographer from './class/Photographer.js'
 import SortDropDown from './class/SortDropDown.js'
 import Media from './class/Media.js'
 import CardInfos from './class/CardInfos.js'
-import LightBox from './class/LightBox.js'
+import FormContact from './class/FormContact.js'
 
 // -----------------------------------------
 // Définition des cibles sur le document
@@ -80,7 +80,6 @@ const photographerTarget = document.getElementById('photographer-profil')
 const sortTarget = document.getElementById('sort')
 const mediaTarget = document.getElementById('gallery')
 const cardInfosTarget = document.getElementById('card-infos')
-const modalTarget = document.getElementById('modal')
 
 // -----------------------------------------
 // Fonctions
@@ -117,9 +116,6 @@ Tag.config({
     oneAtTime: true,
     callback: () => { Media.setVisbilityFromFilters() }
 })
-
-LightBox.target = modalTarget
-
 
 // Photographe
 
@@ -159,3 +155,8 @@ LightBox.target = modalTarget
 
     // Injection dans le document
     injectElement(cardInfos.getView(), cardInfosTarget)
+
+
+// Initialisation du formulaire de contact
+
+    FormContact.init()

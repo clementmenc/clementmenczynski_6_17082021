@@ -1,3 +1,4 @@
+import FormContact from "./FormContact.js";
 import Tag from "./Tag.js";
 
 export default class Photographer {
@@ -107,7 +108,9 @@ export default class Photographer {
         container.appendChild(contactBtn)
         container.appendChild(pictureElement)
 
-        // this.element = container
+        // Ajout de l'event click sur le bouton de contact
+        contactBtn.addEventListener('click', () => FormContact.open())
+
         return container
     }
 

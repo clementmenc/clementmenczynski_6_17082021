@@ -5,9 +5,7 @@ export default class LightBox {
         this.current = this.elements[this.id]
         this.target = document.getElementById('modal-lightbox')
 
-
         this.render()
-        this.open()
     }
 
     getView = () => {
@@ -53,13 +51,14 @@ export default class LightBox {
 
     open = () => {
         this.target.classList.add('open')
+        document.body.classList.add('no-scroll')
         document.addEventListener('keydown', this.keyControl)
     }
 
     close = () => {
         this.target.classList.remove('open')
+        document.body.classList.remove('no-scroll')
         document.removeEventListener('keydown', this.keyControl)
-
     }
 
     keyControl = (e) => {
@@ -86,7 +85,7 @@ export default class LightBox {
     }
 
     prevMedia = () => {
-        this.id = (this.id - 1 == -1) ? this.elements.length - 1 : this.id - 1
+        this.id = (this.id - 1 === -1) ? this.elements.length - 1 : this.id - 1
         this.current = this.elements[this.id]
         this.title.innerHTML = this.current.title
         this.mediaContainer.replaceChild(this.getMedia(), this.mediaContainer.children[0])
@@ -112,5 +111,7 @@ export default class LightBox {
     render = () => {
         this.target.innerHTML = ''
         this.target.appendChild(this.getView())
+        this.open()
+        console.log(this.target);
     }
 }
