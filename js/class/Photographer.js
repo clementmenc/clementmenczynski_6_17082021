@@ -17,7 +17,12 @@ export default class Photographer {
     }
 
     static instances = []
+    static emptyTarget = document.getElementById('no-photographer')
 
+    /**
+     * Cette fonction choisi la vue du photographe selon la page et la retourne
+     * @returns {HTMLElement}
+     */
     getView = () => {
         let path = window.location.pathname.split('/')
         path = path[path.length - 1]
@@ -35,10 +40,13 @@ export default class Photographer {
         }
     }
 
+    /**
+     * Créer et retourne la vue du photographe en miniature (Accueil)
+     * @returns {HTMLELement}
+     */
     thumbnail = () => {
         let element = document.createElement('article')
         element.setAttribute('class', 'photographer-thumbnail')
-        element.setAttribute('data-id', this.id)
 
         element.innerHTML =
         `<a class="photographer__profil" href="photographer.html?id=${this.id}">
@@ -65,6 +73,10 @@ export default class Photographer {
         return element
     }
 
+    /**
+     * Créer et retourne la vue du photographe en profil (Page photographe)
+     * @returns {HTMLElement}
+     */
     profil = () => {
 
         // Création des éléments du profil
@@ -77,8 +89,10 @@ export default class Photographer {
         container.setAttribute('id', 'photographer-profil')
         container.setAttribute('class', 'photographer-profil')
         infosElement.setAttribute('class', 'photographer__infos')
+        contactBtn.setAttribute('id', 'contact-btn')
         contactBtn.setAttribute('class', 'btn photographer__btn')
         pictureElement.setAttribute('class', 'photographer__img')
+        pictureElement.setAttribute('alt', this.name)
         pictureElement.setAttribute('src', `imgs/photos/Photographers_ID_Photos/${this.portrait}`)
         
         // Ajout du contenu dans l'élément infos
@@ -89,6 +103,7 @@ export default class Photographer {
 
         let tagsList = document.createElement('ul')
         tagsList.setAttribute('class', 'tag-list')
+        tagsList.setAttribute('aria-label', 'tags')
 
         let tags = this.tags.map(tag => new Tag(tag))
 
@@ -114,11 +129,23 @@ export default class Photographer {
         return container
     }
 
+    /**
+     * Défini si le photographe doit être visible ou non selon les tags sélectionné
+     */
     static setVisbilityFromFilters = () => {
+        let nbVisible = 0
 
         Photographer.instances.forEach(photographer => {
             let res = photographer.tags.filter(tag => Tag.activeTags.includes(tag))
-            photographer.element.style.display = res.length == Tag.activeTags.length ? "block" : "none"
+            
+            if (res.length == Tag.activeTags.length) {
+                nbVisible++
+                photographer.element.style.display = "block"
+            }else{
+                photographer.element.style.display = "none"
+            }
         })
+
+        Photographer.emptyTarget.style.display = nbVisible === 0 ? "block" : "none"
     }
 }

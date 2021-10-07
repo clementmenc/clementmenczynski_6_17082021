@@ -1,15 +1,21 @@
 import Media from './Media.js'
-import Photographer from './Photographer.js'
 
 export default class CardInfos {
     constructor (price) {
         this.price = price
     }
 
+    /**
+     * Modifie le nombre total de like du photographe courant sur la vue
+     */
     static updateTotalLike = () => {
         document.getElementById('counter-likes').innerHTML = Media.totalLikes
     }
 
+    /**
+     * Cette fonction créer la vue de la card d'information du photographe (nombre de like total + prix)
+     * @returns {HTMLElement}
+     */
     getView = () => {
         let container = document.createElement('aside')
         container.setAttribute('id', "card-infos")

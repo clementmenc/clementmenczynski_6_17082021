@@ -18,6 +18,8 @@
         background-color: $lightRed;
         padding: 30px 15px;
         min-height: 100%;
+
+        .form-name{ font-size: 2.25rem; margin-bottom: 20px; }
     }
 
     .form{
@@ -27,7 +29,6 @@
 
         .btn-submit{ align-self: center; }
 
-        h1{ font-size: 2.25rem; margin-bottom: 20px; }
 
         &__item{
             display: flex;
@@ -100,13 +101,11 @@
             width: 700px;
             margin: 50px auto;
             border-radius: $borderRadius;
+
+            .form-name{ font-size: 4rem; }
         }
 
-        .form{
-            h1{ font-size: 4rem; }
-
-            .btn-submit{ align-self: flex-start; }
-        }
+        .form .btn-submit{ align-self: flex-start; }
 
         .close{
             width: 45px;

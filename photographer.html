@@ -38,10 +38,10 @@
 
     <aside id="modal-lightbox" class="lightbox"></aside>
 
-    <aside id="modal-form" class="form-contact">
+    <aside id="modal-form" class="form-contact" tabindex="0">
         <div class="form-contact__container">
-            <form id="contact-form" class="form">
-                <h1 id="form-name">Contactez-moi<br></h1>
+            <h1 id="form-name" class="form-name">Contactez-moi<br></h1>
+            <form id="contact-form" class="form" tabindex="0" aria-label="formulaire de contact">
                 <div class="form__item">
                     <label for="first-name">Prénom</label>
                     <input type="text" class="text-control" id="first-name" name="first-name">
@@ -60,7 +60,7 @@
                 </div>
                 <button type="submit" id="submitForm" class="btn btn-submit">Envoyer</button>
             </form>
-            <button id="closeModal" class="close">
+            <button id="closeModal" class="close" aria-label="fermer le formulaire">
             </button>
         </div>
     </aside>

@@ -13,6 +13,7 @@ export default class Media {
         this.img = data.image
         this.video = data.video
         this.price = data.price
+        this.alt = data.alt
         this.liked = false
         this.element = this.getView()
         Media.target = target
@@ -26,11 +27,18 @@ export default class Media {
     static instances = []
     static totalLikes = 0
 
+    /**
+     * Remplie la cible (la gallerie) avec les medias
+     */
     static fill = () => {
         Media.target.innerHTML = ""
         Media.instances.forEach(media => Media.target.appendChild(media.element))
     }
 
+    /**
+     * Tri les médias
+     * @param {string} what popularity / date / title
+     */
     static sortBy = (what) => {
         let element = [...Media.instances]
         switch (what) {
@@ -51,6 +59,9 @@ export default class Media {
         Media.fill()
     }
 
+    /**
+     * Défini si chaque media et visible ou non selon le tag selectionné
+     */
     static setVisbilityFromFilters = () => {
 
         Media.instances.forEach(media => {
@@ -59,6 +70,9 @@ export default class Media {
         })
     }
 
+    /**
+     * Incrémente ou décrémente le nombre de like d'un media
+     */
     like = () => {
         if (this.liked){
             this.likes -= 1
@@ -75,13 +89,21 @@ export default class Media {
         CardInfos.updateTotalLike()
     }
 
+    /**
+     * Creer et retourne la vue d'un media
+     * @returns {HTMLElement}
+     */
     getView = () => {
         let container = document.createElement('article')
         container.setAttribute('class', 'media')
 
-        let media = document.createElement('div')
+        let media = document.createElement('a')
+        media.setAttribute('href', '#')
         media.setAttribute('class', 'media__link')
-        media.setAttribute('class', 'media__link')
+
+        if (this.video) {
+            media.classList.add('video-overlay')
+        }
         media.innerHTML = this.getThumbnail()
         media.addEventListener('click', () => new LightBox(Media.instances, Media.instances.indexOf(this)) )
 
@@ -108,20 +130,35 @@ export default class Media {
         return container
     }
 
+    /**
+     * Créer et retourne le bouton de like
+     * @returns {HTMLElement}
+     */
     getLikeBtn = () => {
         let likeBtn = document.createElement('i')
         likeBtn.setAttribute('class', 'far fa-heart media__infos__likes-icon')
         likeBtn.setAttribute('aria-label', 'likes')
+        likeBtn.setAttribute('role', 'button')
+        likeBtn.setAttribute('tabindex', '0')
 
         likeBtn.addEventListener('click', this.like)
+        likeBtn.addEventListener('keydown', (e)=> {
+            if (e.key === "Enter") {
+                this.like()
+            }
+        })
 
         this.likeBtn = likeBtn
         return likeBtn
     }
 
+    /**
+     * Créer la miniature du media et le retourne
+     * @returns {string}
+     */
     getThumbnail = () => {
         if (this.img) {
-            return `<img class="media__link__img" src="imgs/photos/${this.photographerId}/${this.img}" alt="">`
+            return `<img class="media__link__img" src="imgs/photos/${this.photographerId}/${this.img}" alt="${this.alt}">`
         }
         
         if (this.video){

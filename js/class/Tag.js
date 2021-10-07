@@ -23,6 +23,10 @@ export default class Tag {
     static oneAtTime = false
     static callback = null
 
+    /**
+     * Configuration du comportement des tags de la pages
+     * @param {string} config 
+     */
     static config = (config) => {
         for (const [key, value] of Object.entries(config)) {
             switch (key) {
@@ -38,6 +42,9 @@ export default class Tag {
         }
     }
 
+    /**
+     * Modifie l'état du tag si il est selectionné ou non
+     */
     setState = () => {
 
         if (Tag.oneAtTime && Tag.activeTags[0] != this.value) {

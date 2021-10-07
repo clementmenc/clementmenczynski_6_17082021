@@ -8,6 +8,10 @@ export default class LightBox {
         this.render()
     }
 
+    /**
+     * Créer la vue et la retourne
+     * @returns {HTMLElement}
+     */
     getView = () => {
 
         let container = document.createElement('div')
@@ -61,6 +65,10 @@ export default class LightBox {
         document.removeEventListener('keydown', this.keyControl)
     }
 
+    /**
+     * Cette fonction controle les entrés clavier sur la lightbox
+     * @param {KeybordEvent} e 
+     */
     keyControl = (e) => {
         switch (e.key) {
             case 'ArrowLeft':
@@ -91,6 +99,10 @@ export default class LightBox {
         this.mediaContainer.replaceChild(this.getMedia(), this.mediaContainer.children[0])
     }
 
+    /**
+     * Cette fonction créer le html qui contient la media et le retourne
+     * @returns {HTMLElement}
+     */
     getMedia = () => {
         let media
         if (this.current.img) {
@@ -108,10 +120,12 @@ export default class LightBox {
         return media
     }
 
+    /**
+     * Cette fonction ajoute la vue au document
+     */
     render = () => {
         this.target.innerHTML = ''
         this.target.appendChild(this.getView())
         this.open()
-        console.log(this.target);
     }
 }

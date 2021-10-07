@@ -26,6 +26,7 @@ let entriesValidation = {}
 
 const open = () => {
     _modal.classList.add('open')
+    _modal.focus()
     document.body.classList.add('no-scroll')
 }
 
@@ -33,9 +34,14 @@ const close = (e) => {
     if(e.target == _modal || e.target == _closeModalBtn){
         _modal.classList.remove('open')
         document.body.classList.remove('no-scroll')
+        document.getElementById('contact-btn').focus()
     }
 }
 
+
+/**
+ * Initialise la vue et set les events
+ */
 const init = () => {
 
     // Initialisation de la vue
@@ -94,6 +100,13 @@ const init = () => {
 
 }
 
+/**
+ * Cette fonction controle la saisi de l'utilisateur sur un champ input type text
+ * @param {object} entry 
+ * @param {regex} regex 
+ * @param {number} minLength 
+ * @param {number} maxLength 
+ */
 const inputTextControl = (entry, regex, minLength = 1, maxLength) => {
     let value = entry.value
 
@@ -111,6 +124,11 @@ const inputTextControl = (entry, regex, minLength = 1, maxLength) => {
     }
 }
 
+/**
+ * Cette fonction controle la saisi de l'utilisateur sur un champ input type email
+ * @param {object} entry 
+ * @param {regex} regex 
+ */
 const inputEmailControl = (entry, regex) => {
     let value = entry.value
 
@@ -123,6 +141,12 @@ const inputEmailControl = (entry, regex) => {
     }
 }
 
+/**
+ * Cette fonction controle la saisi de l'utilisateur sur un champ textarea
+ * @param {object} entry 
+ * @param {number} minLength 
+ * @param {number} maxLength 
+ */
 const inputTextareaControl = (entry, minLength = 1, maxLength) => {
     let value = entry.value
 
@@ -135,8 +159,12 @@ const inputTextareaControl = (entry, minLength = 1, maxLength) => {
     }
 }
 
+/**
+ * Cette fonction controle si tout les champs sont renseigné correctement
+ * @param {object} entries 
+ * @returns {boolean}
+ */
 const formValidate = (entries) => {
-
     let formCompleted = true
     Object.entries(entries).forEach( ([key, value]) => {
         if(!value.validate){
@@ -148,6 +176,12 @@ const formValidate = (entries) => {
     return formCompleted
 }
 
+
+/**
+ * Cette fonction créer une erreur sur un element du formulaire
+ * @param {object} elem 
+ * @param {string} error 
+ */
 const setError = (elem, error) => {
     let target = NodeList.prototype.isPrototypeOf(elem) ? elem[0].parentNode : elem.parentNode
     while (!target.classList.contains('form__item')) {
@@ -157,6 +191,10 @@ const setError = (elem, error) => {
     target.setAttribute("data-error", error)
 }
 
+/**
+ * Cette fonction supprime une erreur d'un element du formulaire
+ * @param {object} elem 
+ */
 const removeError = (elem) => {
 
     let target = NodeList.prototype.isPrototypeOf(elem) ? elem[0].parentNode : elem.parentNode

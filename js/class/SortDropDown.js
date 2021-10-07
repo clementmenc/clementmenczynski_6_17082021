@@ -37,6 +37,7 @@ export default class SortDropDown {
         sortBtn.setAttribute('class', 'btn sort-btn')
         sortBtn.setAttribute('aria-expanded', 'false')
         sortBtn.setAttribute('aria-haspopup', 'listbox')
+        sortBtn.setAttribute('labelledby', 'sort-label')
         sortBtn.innerHTML = this.defaultBtnValue
         this.btn = sortBtn
         sortBtn.addEventListener('click', this.toggleDropDown)
@@ -72,6 +73,7 @@ export default class SortDropDown {
             let sortItem = document.createElement('li')
             sortItem.setAttribute('class', 'sort-list__item')
             sortItem.setAttribute('data-value', key)
+            sortItem.setAttribute('tabindex', '0')
             sortItem.innerHTML = value
 
             sortItem.addEventListener('click', this.updateState)
@@ -82,6 +84,10 @@ export default class SortDropDown {
         return sortList
     }
 
+    /**
+     * Change l'état du bouton de tri lorsqu'une option est cliqué
+     * @param {PointerEvent} e 
+     */
     updateState = (e) => {
         e.preventDefault()
         let newState = e.target.getAttribute('data-value')
