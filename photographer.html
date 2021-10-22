@@ -32,13 +32,13 @@
 
     </main>
 
-    <aside id="card-infos" class="card-infos">
+    <aside id="card-infos">
         <!-- Injection de l'élément généré avec JavaScript ici -->
     </aside>
 
-    <aside id="modal-lightbox" class="lightbox"></aside>
+    <aside id="modal-lightbox" class="lightbox" tabindex="0" aria-label="Vue rapproché"></aside>
 
-    <aside id="modal-form" class="form-contact" tabindex="0">
+    <aside id="modal-form" class="form-contact" tabindex="0" aria-label="Modal de contact" >
         <div class="form-contact__container">
             <h1 id="form-name" class="form-name">Contactez-moi<br></h1>
             <form id="contact-form" class="form" tabindex="0" aria-label="formulaire de contact">
@@ -58,7 +58,7 @@
                     <label for="message">Votre message</label>
                     <textarea class="text-control" name="message" id="message"></textarea>
                 </div>
-                <button type="submit" id="submitForm" class="btn btn-submit">Envoyer</button>
+                <button type="submit" id="submitForm" aria-live="assertive" aria-label="Envoyer le formulaire" class="btn btn-submit">Envoyer</button>
             </form>
             <button id="closeModal" class="close" aria-label="fermer le formulaire">
             </button>

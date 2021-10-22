@@ -65,18 +65,21 @@ export default class SortDropDown {
         sortList.setAttribute('id', 'sort-list')
         sortList.setAttribute('class', 'sort-list')
         sortList.setAttribute('role', 'listbox')
-        sortList.setAttribute('aria-activedescendant', 'true')
+        sortList.setAttribute('aria-activedescendant', 'popularity')
         sortList.setAttribute('aria-selected', 'true')
         sortList.setAttribute('aria-labelledby', 'sort-label')
 
         for (const [key, value] of Object.entries(this.item)) {
             let sortItem = document.createElement('li')
+            sortItem.setAttribute('id', value)
             sortItem.setAttribute('class', 'sort-list__item')
             sortItem.setAttribute('data-value', key)
             sortItem.setAttribute('tabindex', '0')
+            sortItem.setAttribute('role', 'button')
             sortItem.innerHTML = value
 
             sortItem.addEventListener('click', this.updateState)
+            sortItem.addEventListener('keydown', (e) => { e.key === 'Enter' && this.updateState(e)})
 
             sortList.appendChild(sortItem)
         }
@@ -90,11 +93,13 @@ export default class SortDropDown {
      */
     updateState = (e) => {
         e.preventDefault()
+        this.toggleDropDown()
         let newState = e.target.getAttribute('data-value')
 
         if(newState != SortDropDown.value){
             SortDropDown.value = newState
             this.btnValue = newState
+            this.list.setAttribute('aria-activedescendant', newState)
             this.btn.innerHTML = this.item[newState]
             Media.sortBy(newState)
         }

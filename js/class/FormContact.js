@@ -28,13 +28,24 @@ const open = () => {
     _modal.classList.add('open')
     _modal.focus()
     document.body.classList.add('no-scroll')
+    document.addEventListener('keydown', bindKeys)
 }
 
 const close = (e) => {
-    if(e.target == _modal || e.target == _closeModalBtn){
+    if(!e || e.target == _modal || e.target == _closeModalBtn){
         _modal.classList.remove('open')
         document.body.classList.remove('no-scroll')
         document.getElementById('contact-btn').focus()
+        document.removeEventListener('keydown', bindKeys)
+    }
+}
+
+const bindKeys = (e) => {
+    e.key === "Escape" && close()
+
+    if(e.key === "Tab" && e.target === _closeModalBtn){
+        e.preventDefault()
+        _form.focus()
     }
 }
 
@@ -67,13 +78,16 @@ const init = () => {
 
             // À appeller quand l'envoi asynchrone répond avec un status 200 (Ok)
             _form.reset()
+            _submitBtn.setAttribute('aria-label', 'Formulaire envoyé')
             Object.values(entriesValidation).forEach( value => {
                 value.validate = false
             })
+        }else{
+            _submitBtn.setAttribute('aria-label', "Données manquante ou invalide, impossible d'envoyer le formulaire")
         }
     });
 
-    // Ajout des Events lier à la saisi du formulaire
+    // Ajout des Events lier à la saisi
     [...formulaire.elements].forEach(entry => {
         if (entry.nodeName === "INPUT" || entry.nodeName === "TEXTAREA") {
 
@@ -205,7 +219,6 @@ const removeError = (elem) => {
 
     target.removeAttribute("data-error")
 }
-
 
 
 const FormContact = {

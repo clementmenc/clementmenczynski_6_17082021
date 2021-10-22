@@ -99,6 +99,7 @@ export default class Media {
 
         let media = document.createElement('a')
         media.setAttribute('href', '#')
+        media.setAttribute('role', 'button')
         media.setAttribute('class', 'media__link')
 
         if (this.video) {
@@ -158,11 +159,11 @@ export default class Media {
      */
     getThumbnail = () => {
         if (this.img) {
-            return `<img class="media__link__img" src="imgs/photos/${this.photographerId}/${this.img}" alt="${this.alt}">`
+            return `<img class="media__link__img" src="imgs/photos/${this.photographerId}/${this.img}" alt="${this.title}, vue rapproché">`
         }
         
         if (this.video){
-            return `<video class="media__link__video">
+            return `<video class="media__link__video" aria-label="${this.title}, vue rapproché">
                         <source src="imgs/photos/${this.photographerId}/${this.video}" type="video/mp4">
                     </video>`
         }

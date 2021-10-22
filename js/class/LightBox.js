@@ -28,17 +28,21 @@ export default class LightBox {
 
         let arrowLeft = document.createElement('button')
         arrowLeft.setAttribute('class', 'arrow-left')
-        arrowLeft.innerHTML = `<i role="link" class="fas fa-chevron-left"></i>`
+        arrowLeft.setAttribute('aria-label', 'précédent')
+        arrowLeft.innerHTML = `<i role="button" class="fas fa-chevron-left"></i>`
        arrowLeft.addEventListener('click', () => this.prevMedia())
 
         let arrowRight = document.createElement('button')
         arrowRight.setAttribute('class', 'arrow-right')
-        arrowRight.innerHTML = `<i role="link" class="fas fa-chevron-right"></i>`
+        arrowRight.setAttribute('aria-label', 'suivant')
+        arrowRight.innerHTML = `<i role="button" class="fas fa-chevron-right"></i>`
         arrowRight.addEventListener('click', () => this.nextMedia())
 
         let closeBtn = document.createElement('button')
         closeBtn.setAttribute('class', 'close')
+        closeBtn.setAttribute('aria-label', 'fermer la vue rapproché')
         closeBtn.innerHTML = `<i class="fas fa-times"></i>`
+        this.closeBtn = closeBtn
         closeBtn.addEventListener('click', () => this.close())
 
 
@@ -57,12 +61,20 @@ export default class LightBox {
         this.target.classList.add('open')
         document.body.classList.add('no-scroll')
         document.addEventListener('keydown', this.keyControl)
+        this.target.focus()
     }
 
     close = () => {
         this.target.classList.remove('open')
         document.body.classList.remove('no-scroll')
         document.removeEventListener('keydown', this.keyControl)
+    }
+
+    trackFocus = (e) => {
+        if (e.target === this.closeBtn) {
+            e.preventDefault()
+            this.target.focus()
+        }
     }
 
     /**
@@ -79,6 +91,9 @@ export default class LightBox {
                 break;
             case 'Escape':
                 this.close()
+            break;
+            case 'Tab':
+                this.trackFocus(e)
             break;
             default:
                 break;
@@ -108,6 +123,7 @@ export default class LightBox {
         if (this.current.img) {
             media = document.createElement('img')
             media.setAttribute('class', 'media')
+            media.setAttribute('alt', this.current.alt)
             media.src = `imgs/photos/${this.current.photographerId}/` + this.current.img
         }else{
             media = document.createElement('video')

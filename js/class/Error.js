@@ -1,3 +1,5 @@
+const main = document.getElementsByTagName('main')
+
 export default class Error {
 
     /**
@@ -14,9 +16,6 @@ export default class Error {
      * @param {string} errorMsg 
      */
     static print = (errorMsg) => {
-        let container = document.createElement('div')
-        container.innerHTML = `<p>${errorMsg}</p>`
-
-        document.body.appendChild(container)
+        main[0].innerHTML = `<div class="msg-error"><p>${errorMsg}</p><a href="index.gtml">Retour à l'accueil</a></div>`
     }
 }

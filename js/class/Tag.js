@@ -7,6 +7,8 @@ export default class Tag {
         this.element.setAttribute('class', 'tag-item')
         this.element.setAttribute('data-active', this.state)
         this.element.setAttribute('data-value', this.value)
+        this.element.setAttribute('role', "button")
+        this.element.setAttribute('aria-label', `filtre ${this.value}, désactivé`)
         this.element.innerHTML = `<a href="#">${this.value}</a>`
 
         this.element.addEventListener('click', (e) => {
@@ -63,9 +65,11 @@ export default class Tag {
             if (Tag.activeTags.includes(tag.value)) {
                 tag.state = true
                 tag.element.setAttribute('data-active', 'true')
+                tag.element.setAttribute('aria-label', `filtre ${tag.value}, activé`)
             } else {
                 tag.state = false
                 tag.element.setAttribute('data-active', 'false')
+                tag.element.setAttribute('aria-label', `filtre ${tag.value}, désactivé`)
             }
         })
     } 
