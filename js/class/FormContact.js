@@ -78,12 +78,9 @@ const init = () => {
 
             // À appeller quand l'envoi asynchrone répond avec un status 200 (Ok)
             _form.reset()
-            _submitBtn.setAttribute('aria-label', 'Formulaire envoyé')
             Object.values(entriesValidation).forEach( value => {
                 value.validate = false
             })
-        }else{
-            _submitBtn.setAttribute('aria-label', "Données manquante ou invalide, impossible d'envoyer le formulaire")
         }
     });
 
