@@ -27,8 +27,6 @@ const injectElement = (element, target) => {
 
 await Api.init()
 
-
-
 // Tags
 
     // Configuration du comportement des tags sur la pages
