@@ -3,6 +3,7 @@
 // -----------------------------------------
 
 import Api from './class/Api.js'
+import Error from './class/Error.js'
 import Tag from './class/Tag.js'
 import Photographer from './class/Photographer.js'
 
@@ -25,7 +26,13 @@ const injectElement = (element, target) => {
 // Comportement par défaut (une fois la page chargé)
 // -----------------------------------------
 
-await Api.init()
+// const connected = await Api.init()
+
+try {
+    await Api.init()
+} catch (error) {
+    Error.print(error)
+}
 
 // Tags
 

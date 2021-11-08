@@ -14,8 +14,15 @@ export default class Error {
     /**
      * Cette fonction créer et affiche un message d'erreur
      * @param {string} errorMsg 
+     * @param {boolean} returnHome 
      */
-    static print = (errorMsg) => {
-        main[0].innerHTML = `<div class="msg-error"><p>${errorMsg}</p><a href="index.gtml">Retour à l'accueil</a></div>`
+    static print = (errorMsg, returnHome) => {
+
+
+        if (returnHome) {
+            main[0].innerHTML += `<div class="msg-error"><p>${errorMsg}</p><a href="index.html">Retour à l'accueil</a></div>`
+        }else{
+            main[0].innerHTML = `<div class="msg-error"><p>${errorMsg}</p></div>`
+        }
     }
 }

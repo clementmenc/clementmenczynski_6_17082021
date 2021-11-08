@@ -12,11 +12,14 @@ export default class Api {
      * Cette fonction récupère les données du fichier Json et les stocks dans des variables statiques
      */
     static init = async () => {
-        const req = await fetch('./FishEyeData.json')
-        const data =  await req.json()
+            const req = await fetch('./FishEyeData.json')
+            if (!req.ok) {
+                throw "Données momentanément indisponible"
+            }
+            const data =  await req.json()
 
-        Api.photographers = data.photographers
-        Api.medias = data.media
+            Api.photographers = data.photographers
+            Api.medias = data.media        
     }
 
     /**
@@ -37,7 +40,7 @@ export default class Api {
 
         if (!isNaN(id)) {
             const res = Api.photographers.find(photographer => photographer.id === id)
-            return res || Error.print("Ce photographe n'existe pas")
+            return res || Error.print("Ce photographe n'existe pas", true)
         }
     }
 
