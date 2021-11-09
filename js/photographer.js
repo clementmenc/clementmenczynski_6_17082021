@@ -4,6 +4,7 @@
 
 import Api from './class/Api.js'
 import Tag from './class/Tag.js'
+import Error from './class/Error.js'
 import Photographer from './class/Photographer.js'
 import SortDropDown from './class/SortDropDown.js'
 import Media from './class/Media.js'
@@ -46,7 +47,11 @@ const getParam = (param) => {
 // Comportement par défaut (une fois la page chargé)
 // -----------------------------------------
 
-await Api.init()
+try {
+    await Api.init()
+} catch (error) {
+    Error.print(error, true)
+}
 
 // Configuration du comportement des tags sur la pages
 
