@@ -4,7 +4,8 @@
   "description": "Prototype du site FishEye",
   "main": "index.js",
   "scripts": {
-    "sass": "sass --watch ./sass/main.scss ./css/style.css --style compressed"
+    "sass": "sass --watch ./sass/main.scss ./css/style.css --style compressed",
+    "dev": "serve -l 5500"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/clementmenc/clementmenczynski_6_17082021#readme",
   "devDependencies": {
-    "eslint": "^7.32.0"
+    "eslint": "^7.32.0",
+    "serve": "^13.0.2"
   }
 }
